@@ -1,4 +1,4 @@
-package com.accessone.Messages.composer;
+package com.accessone.Messages.Composer;
 
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
@@ -34,7 +34,7 @@ public class GetCardholderMessageComposer
                 .add("data", factory.createObjectBuilder()
                         .add("get", factory.createObjectBuilder()
                             .add("type", "cardholder")
-                            .add("cardholderid", Integer.toString(cardholderID))))
+                            .add("value", Integer.toString(cardholderID))))
                 .build();
 
         String strJSONMsg = value.toString();

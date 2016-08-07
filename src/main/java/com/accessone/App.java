@@ -7,13 +7,12 @@ package com.accessone;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.concurrent.TimeoutException;
 import java.util.HashMap;
+import java.util.concurrent.TimeoutException;
 
-import com.accessone.Database.MariaDBFacade;
 import com.accessone.Messages.RabbitMQEventMessageSender;
 import com.accessone.Messages.RabbitMQRequestMessageReceiver;
-import com.accessone.Messages.composer.GetCardholderMessageComposer;
+import com.accessone.Messages.Composer.GetCardholderMessageComposer;
 
 public class App 
 {
@@ -36,6 +35,12 @@ public class App
 
         // Setup the RabbitMQ Event message sender
         RabbitMQEventMessageSender producer = new RabbitMQEventMessageSender("request");
+
+        // Send the message to cardholder service
+        HashMap message = new HashMap();
+        message.put("body", strMessage);
+        producer.sendMessage(message);
+        System.out.println("Message sent : " + strMessage);
 
         /*for (int i = 0; i < 10; i++) {
             HashMap message = new HashMap();
