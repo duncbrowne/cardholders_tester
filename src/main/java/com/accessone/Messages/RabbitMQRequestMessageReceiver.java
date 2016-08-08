@@ -47,9 +47,21 @@ public class RabbitMQRequestMessageReceiver extends RabbitMQMessageQueue impleme
     public void handleDelivery(String consumerTag, Envelope env,
                                BasicProperties props, byte[] body) throws IOException
     {
-        Map map = (HashMap)SerializationUtils.deserialize(body);
-        System.out.println("Message Number "+ map.get("message number") + " received.");
+        Map map = (HashMap) SerializationUtils.deserialize(body);
+        String strMessage = map.get("body").toString();
+        System.out.println("Message " + map.get("body") + " received.");
 
+        assert strMessage.equals(
+                "{\"requester\":{\"id\":111,\"type\":\"automatedtester\"},\"status\":\"success\",\"data\":{\"post\":{\"cardholderid\":\"2\",\"title\":\"\",\"firstname\":\"Ewan\",\"surname\":\"Fleet\",\"employeenumber\":\"EF001\",\"departmentid\":\"3\",\"emailaddress\":\"\"}}}");
+
+        if (strMessage.equals(
+                "{\"requester\":{\"id\":111,\"type\":\"automatedtester\"},\"status\":\"success\",\"data\":{\"post\":{\"cardholderid\":\"2\",\"title\":\"\",\"firstname\":\"Ewan\",\"surname\":\"Fleet\",\"employeenumber\":\"EF001\",\"departmentid\":\"3\",\"emailaddress\":\"\"}}}"))
+        {
+            System.out.println("Success... Returned message is as expected");
+        } else
+        {
+            System.err.println("Failure... Returned message not as expected");
+        }
     }
 
     public void handleCancel(String consumerTag) {}
